@@ -74,9 +74,15 @@
       margin-top: 1rem;
       padding: 0.7rem 1.2rem;
       background: var(--accent);
-      color: #000;
+      color: #ffffff;
       border-radius: 20px;
       text-decoration: none;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 15px var(--accent), 0 0 30px var(--accent);
     }
 
     .projects { display: grid; grid-template-columns: 1fr; gap: 1rem; }
