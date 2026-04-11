@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PPortfolio | CoderHAWK</title>
+  <title>My Portfolio</title>
   <style>
     :root {
       --bg: #0f172a;
@@ -106,7 +106,7 @@
 <body>
 
   <header id="header">
-    <h1>CoderHAWK</h1>
+    <h1>Your Name</h1>
     <div class="toggle" onclick="toggleMode()">🌙</div>
     <nav>
       <a href="#about">About</a>
@@ -136,11 +136,11 @@
 
   <section id="contact">
     <h2>Contact</h2>
-    <p>Email: coderhawk019@gmail.com</p>
+    <p>Email: your@email.com</p>
   </section>
 
   <footer>
-    <p>© 2026 CoderHAWK</p>
+    <p>© 2026 Your Name</p>
   </footer>
 
   <script>
@@ -159,7 +159,23 @@
       const icon = document.querySelector(".toggle");
       icon.textContent = document.body.classList.contains("light") ? "☀️" : "🌙";
     }
+
+    // Magnetic hover effect
+    const btn = document.querySelector('.btn');
+
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+
+      btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+    });
+
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = 'translate(0, 0)';
+    });
   </script>
 
 </body>
 </html>
+
