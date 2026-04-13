@@ -2,202 +2,315 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio | CoderHAWK </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio | CoderHAWK</title>
+
   <style>
     :root {
-      --bg: #0f172a;
-      --text: #ffffff;
-      --card: #1e293b;
-      --accent: #38bdf8;
+      --bg:#0f172a;
+      --text:#fff;
+      --card:#1e293b;
+      --accent:#38bdf8;
     }
 
     body.light {
-      --bg: #f1f5f9;
-      --text: #0f172a;
-      --card: #ffffff;
-      --accent: #0ea5e9;
+      --bg:#f1f5f9;
+      --text:#0f172a;
+      --card:#fff;
+      --accent:#0ea5e9;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-    html { scroll-behavior: smooth; }
+    * {
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial;
+    }
 
     body {
-      line-height: 1.6;
-      background: var(--bg);
-      color: var(--text);
-      transition: background 0.4s ease, color 0.4s ease;
+      background:var(--bg);
+      color:var(--text);
+      transition:0.4s;
     }
 
     header {
-      position: sticky; top: 0; z-index: 1000;
-      background: rgba(30,41,59,0.7);
-      backdrop-filter: blur(10px);
-      padding: 1rem;
-      text-align: center;
-      transition: all 0.3s ease;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(30, 41, 59, 0.6); /* semi-transparent */
+  backdrop-filter: blur(12px);       /* glass blur */
+  -webkit-backdrop-filter: blur(12px); /* Safari support */
+  padding: 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+/* Light mode fix */
+body.light header {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+    nav {
+      display:flex;
+      justify-content:center;
+      gap:1rem;
+      margin-top:5px;
     }
 
-    body.light header {
-      background: rgba(255,255,255,0.7);
+    nav a {
+      color:var(--accent);
+      text-decoration:none;
     }
-
-    header h1 { font-size: 1.8rem; }
-
-    nav { display: flex; justify-content: center; gap: 1rem; margin-top: 0.5rem; flex-wrap: wrap; }
-    nav a { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
 
     .toggle {
-      position: absolute;
-      right: 15px;
-      top: 15px;
-      cursor: pointer;
-      font-size: 1.2rem;
+      position:absolute;
+      right:15px;
+      top:15px;
+      cursor:pointer;
     }
 
     section {
-      padding: 3rem 1.2rem;
-      max-width: 900px;
-      margin: auto;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: all 0.8s ease;
+      padding:3rem 1rem;
+      max-width:900px;
+      margin:auto;
+      opacity:0;
+      transform:translateY(40px);
+      transition:0.8s;
     }
 
-    section.show { opacity: 1; transform: translateY(0); }
+    section.show {
+      opacity:1;
+      transform:translateY(0);
+    }
 
-    .hero { text-align: center; }
-    .hero h2 { font-size: 1.8rem; }
+    .hero {
+      text-align:center;
+    }
+
+    /* Typing effect */
+    #typing {
+      background: linear-gradient(90deg,#38bdf8,#a78bfa,#38bdf8);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      font-weight:bold;
+    }
+
+    .cursor {
+      display:inline-block;
+      width:2px;
+      height:1em;
+      background:var(--text);
+      animation:blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%,50%,100% {opacity:1}
+      25%,75% {opacity:0}
+    }
 
     .btn {
-      display: inline-block;
-      margin-top: 1rem;
-      padding: 0.7rem 1.2rem;
-      background: var(--accent);
-      color: #ffffff;
-      border-radius: 20px;
-      text-decoration: none;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display:inline-block;
+      margin-top:1rem;
+      padding:0.7rem 1.2rem;
+      background:var(--accent);
+      color:#fff;
+      border-radius:20px;
+      text-decoration:none;
+      transition:0.3s;
     }
 
     .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 15px var(--accent), 0 0 30px var(--accent);
+      transform:translateY(-3px);
+      box-shadow:0 0 15px var(--accent),0 0 30px var(--accent);
     }
 
-    .projects { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    .projects {
+      display:grid;
+      gap:1rem;
+    }
 
     .card {
-      background: var(--card);
-      padding: 1rem;
-      border-radius: 10px;
-      transition: 0.3s;
+      background:var(--card);
+      padding:1rem;
+      border-radius:10px;
     }
 
-    .card:hover { transform: translateY(-5px); }
-
-    footer { text-align: center; padding: 1rem; background: var(--card); margin-top: 2rem; }
-
-    @media (min-width: 600px) {
-      .projects { grid-template-columns: 1fr 1fr; }
+    /* MODAL */
+    .modal {
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,0.7);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      opacity:0;
+      pointer-events:none;
+      transition:0.3s;
     }
+
+    .modal.active {
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .modal-content {
+      background:var(--card);
+      padding:1.5rem;
+      border-radius:15px;
+      text-align:center;
+      animation:fadeIn 0.4s;
+    }
+
+    .close {
+      float:right;
+      cursor:pointer;
+    }
+
+    @keyframes fadeIn {
+      from {transform:scale(0.8);opacity:0}
+      to {transform:scale(1);opacity:1}
+    }
+
   </style>
 </head>
+
 <body>
 
-  <header id="header">
-    <h1>CoderHAWK</h1>
-    <div class="toggle" onclick="toggleMode()">🌙</div>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
+<header>
+  <h1>CoderHAWK</h1>
+  <div class="toggle" onclick="toggleMode()">🌙</div>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
 
-  <section class="hero show">
-    <h2>Hi, I'm a Developer 🚀</h2>
-    <p>I create websites, videos & cinematic content.</p>
-    <a href="#projects" class="btn">View Work</a>
-  </section>
+<section class="hero show">
+  <h2>Hi, I'm a <span id="typing"></span><span class="cursor"></span> 🚀</h2>
+  <p>I create websites & cinematic content.</p>
+  <a href="#projects" class="btn">View Work</a>
+</section>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <p>
-      Hey 👋, I'm <strong>CoderHAWK</strong> — a passionate <strong>developer & cinematic creator</strong>.
-      I specialize in building modern websites, editing cinematic videos, and creating visually engaging digital experiences.
-    </p>
+<section id="about">
+  <h2>About Me</h2>
+  <p>Hey 👋 I'm a developer & cinematic creator.</p>
+</section>
 
-    <p style="margin-top:10px;">
-      🚀 Skills: HTML, CSS, JavaScript, Python, Video Editing, Cinematic Storytelling
-    </p>
+<section id="projects">
+  <h2>Projects</h2>
 
-    <p style="margin-top:10px;">
-      🎯 Goal: To create premium digital experiences that feel smooth, modern, and impactful.
-    </p>
-
-    <div style="margin-top:15px;">
-      <a href="#contact" class="btn">Hire Me</a>
+  <div class="projects">
+    <div class="card">
+      <h3>Project 1</h3>
+      <p>Short description.</p>
+      <button class="btn" onclick="openModal('Project 1','Preview here','https://your-project1-link.com')">View Project</button>
     </div>
-  </section>
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="projects">
-      <div class="card">
-        <h3>Project 1</h3>
-        <p>Short description.</p>
-        <a href="https://your-project1-link.com" target="_blank" class="btn">View Project</a>
-      </div>
-      <div class="card">
-        <h3>Project 2</h3>
-        <p>Short description.</p>
-        <a href="https://your-project2-link.com" target="_blank" class="btn">View Project</a>
-      </div>
+    <div class="card">
+      <h3>Project 2</h3>
+      <p>Short description.</p>
+      <button class="btn" onclick="openModal('Project 2','Preview here','https://your-project2-link.com')">View Project</button>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Email: coderhawk19@gmail.com</p>
-  </section>
+<section id="contact">
+  <h2>Contact</h2>
+  <p>Email: coderhawk019@gmail.com</p>
+</section>
 
-  <footer>
-    <p>© 2026 CoderHAWK</p>
-  </footer>
+<footer>
+  <p>© 2026 CoderHAWK</p>
+</footer>
 
-  <script>
-    const sections = document.querySelectorAll("section");
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("show");
-        }
-      });
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">✖</span>
+    <h3 id="modal-title"></h3>
+    <p id="modal-desc"></p>
+    <a id="modal-link" class="btn" target="_blank">Open Live</a>
+  </div>
+</div>
+
+<script>
+  // Scroll animation
+  const sections = document.querySelectorAll("section");
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add("show");
+      }
     });
-    sections.forEach(section => observer.observe(section));
+  });
+  sections.forEach(sec => observer.observe(sec));
 
-    function toggleMode() {
-      document.body.classList.toggle("light");
-      const icon = document.querySelector(".toggle");
-      icon.textContent = document.body.classList.contains("light") ? "☀️" : "🌙";
+  // Dark mode
+  function toggleMode(){
+    document.body.classList.toggle("light");
+  }
+
+  // Modal
+  function openModal(title, desc, link){
+    modalTitle.innerText = title;
+    modalDesc.innerText = desc;
+    modalLink.href = link;
+    modal.classList.add("active");
+  }
+
+  function closeModal(){
+    modal.classList.remove("active");
+  }
+
+  const modal = document.getElementById("modal");
+  const modalTitle = document.getElementById("modal-title");
+  const modalDesc = document.getElementById("modal-desc");
+  const modalLink = document.getElementById("modal-link");
+
+  // Typing effect
+  const words = ["Developer ","Video Editor ","Cinematic Creator "];
+  let i=0,j=0,isDeleting=false;
+  const typing = document.getElementById("typing");
+
+  function type(){
+    let word = words[i];
+    typing.textContent = word.substring(0,j);
+
+    if(!isDeleting && j<word.length){
+      j++;
+      setTimeout(type,80);
     }
+    else if(isDeleting && j>0){
+      j--;
+      setTimeout(type,40);
+    }
+    else{
+      isDeleting = !isDeleting;
+      if(!isDeleting) i=(i+1)%words.length;
+      setTimeout(type,1000);
+    }
+  }
 
-    // Magnetic hover effect
-    const btn = document.querySelector('.btn');
+  type();
 
-    btn.addEventListener('mousemove', (e) => {
-      const rect = btn.getBoundingClientRect();
-      const x = e.clientX - rect.left - rect.width / 2;
-      const y = e.clientY - rect.top - rect.height / 2;
+  // Magnetic button
+  const btn = document.querySelector('.btn');
 
-      btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
-    });
+  btn.addEventListener('mousemove', (e) => {
+    const rect = btn.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+  });
 
-    btn.addEventListener('mouseleave', () => {
-      btn.style.transform = 'translate(0, 0)';
-    });
-  </script>
+  btn.addEventListener('mouseleave', () => {
+    btn.style.transform = 'translate(0,0)';
+  });
+</script>
 
 </body>
 </html>
