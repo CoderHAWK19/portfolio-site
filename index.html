@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> CoderHAWK | Portfolio</title>
+    <title> CoderHAWK | Portfolio & Blog</title>
     <style>
         /* Reset & Base Styles */
         * {
@@ -11,6 +11,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth; /* Smooth scrolling to sections */
         }
 
         body {
@@ -28,87 +29,73 @@
             width: 100vw;
             height: 100vh;
             z-index: 1;
-            pointer-events: none; /* Allows clicking through the canvas to elements underneath */
+            pointer-events: none;
+        }
+
+        /* Fixed Navigation Bar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(13, 17, 23, 0.8);
+            backdrop-filter: blur(10px); /* Modern glassmorphism look */
+            border-bottom: 1px solid #21262d;
+            z-index: 10;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .logo {
+            font-family: monospace;
+            font-size: 1.2rem;
+            color: #58a6ff;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #8b949e;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #58a6ff;
         }
 
         /* Content Wrapper */
         .content-container {
             position: relative;
-            z-index: 2; /* Sits above the canvas */
+            z-index: 2;
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
-        /* Top Section: Introduction */
-        .hero-section {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
+        /* Sections Shared Layout */
+        section {
+            padding: 100px 0 60px 0;
+            min-height: 100vh;
         }
 
-        .hero-section h1 {
-            font-size: 3.5rem;
-            color: #58a6ff; /* Tech blue */
-            margin-bottom: 10px;
-        }
-
-        .hero-section h2 {
-            font-size: 1.8rem;
-            color: #8b949e;
-            margin-bottom: 20px;
-        }
-
-        .hero-section p {
-            font-size: 1.1rem;
-            max-width: 600px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-       .btn {
-    display: inline-block;
-    padding: 12px 28px;
-    color: #58a6ff; /* Tech blue */
-    border: 2px solid #58a6ff;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    background: transparent;
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth easing */
-    position: relative;
-    overflow: hidden;
-}
-
-.btn:hover {
-    color: #ffffff;
-    background: #58a6ff;
-    transform: translateY(-3px); /* Subtle lift effect */
-    
-    /* Dual-layer glowing box shadow */
-    box-shadow: 0 0 15px rgba(88, 166, 255, 0.6), 
-                0 0 30px rgba(88, 166, 255, 0.3);
-                
-    /* Glowing text shadow */
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
-}
-
-/* Optional: Active state when clicked */
-.btn:active {
-    transform: translateY(-1px);
-    box-shadow: 0 0 8px rgba(88, 166, 255, 0.6);
-}
-
-        /* Bottom Section: Projects */
-        .projects-section {
-            padding: 100px 0;
-        }
-
-        .projects-section h2 .section-title {
+        .section-title {
             font-size: 2.5rem;
             color: #f0f6fc;
             margin-bottom: 40px;
@@ -116,43 +103,107 @@
             padding-bottom: 10px;
         }
 
-        .projects-grid {
+        /* Top Section: Introduction */
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 140px;
+        }
+
+        .hero-section h2 {
+            font-size: 1.8rem;
+            color: #8b949e;
+            margin-bottom: 15px;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            color: #58a6ff;
+            margin-bottom: 15px;
+        }
+
+        .hero-section p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 35px;
+        }
+
+        /* Glowing Button */
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            color: #58a6ff;
+            border: 2px solid #58a6ff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            background: transparent;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .btn:hover {
+            color: #ffffff;
+            background: #58a6ff;
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px rgba(88, 166, 255, 0.6), 
+                        0 0 30px rgba(88, 166, 255, 0.3);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+        }
+
+        /* Grid Layout for Cards */
+        .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 25px;
         }
 
-        .project-card {
+        .card {
             background: #161b22;
             border: 1px solid #30363d;
             border-radius: 8px;
             padding: 25px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .project-card:hover {
+        .card:hover {
             transform: translateY(-5px);
             border-color: #58a6ff;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
         }
 
-        .project-card h3 {
+        .card h3 {
             color: #58a6ff;
             margin-bottom: 15px;
             font-size: 1.4rem;
         }
 
-        .project-card p {
+        .card p {
             font-size: 0.95rem;
-            line-height: 1.5;
+            line-height: 1.6;
             margin-bottom: 20px;
             color: #8b949e;
+        }
+
+        /* Utility styles for metadata */
+        .meta-text {
+            font-size: 0.8rem;
+            color: #8b949e;
+            margin-bottom: 10px;
+            font-family: monospace;
         }
 
         .tags {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
+            margin-top: auto;
         }
 
         .tag {
@@ -163,15 +214,45 @@
             font-size: 0.8rem;
             font-family: monospace;
         }
+
+        .read-more {
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 15px;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
 
+    <!-- Canvas for the background trail -->
     <canvas id="trail-canvas"></canvas>
 
+    <!-- Global Header Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#home" class="logo">&lt;CSE_Student /&gt;</a>
+            <ul class="nav-links">
+                <li><a href="#home">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#blogs">Blogs</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Site Content -->
     <div class="content-container">
         
-        <section class="hero-section">
+        <!-- SECTION 1: Intro (Home) -->
+        <section id="home" class="hero-section">
             <h2>Hi, my name is</h2>
             <h1>CoderHAWK</h1>
             <h2>B.Tech Computer Science Student</h2>
@@ -179,14 +260,17 @@
             <a href="#projects" class="btn">View My Work</a>
         </section>
 
-        <section id="projects" class="projects-section">
+        <!-- SECTION 2: Projects -->
+        <section id="projects">
             <h2 class="section-title">Featured Projects</h2>
             
-            <div class="projects-grid">
-                
-                <div class="project-card">
-                    <h3>Bus Ticket Booking System</h3>
-                    <p>A comprehensive desktop/web application engineered to streamline transit reservations. Features a robust relational database schema to handle seat allocations, schedules, and user bookings securely without conflicts.</p>
+            <div class="cards-grid">
+                <!-- Bus Ticket Booking Project -->
+                <div class="card">
+                    <div>
+                        <h3>Bus Ticket Booking System</h3>
+                        <p>A comprehensive application engineered to streamline transit reservations. Features a robust relational database schema to handle seat allocations, schedules, and user bookings securely without transaction conflicts.</p>
+                    </div>
                     <div class="tags">
                         <span class="tag">Python</span>
                         <span class="tag">SQL</span>
@@ -194,25 +278,58 @@
                     </div>
                 </div>
 
-                <div class="project-card">
-                    <h3>Project Two (Blog Coming Soon)</h3>
-                    <p>Your next project details go here. Focus on the problem you solved, the tech stack used, and the final impact or performance optimization achieved.</p>
+                <!-- Future Project Shell -->
+                <div class="card">
+                    <div>
+                        <h3>Upcoming Project</h3>
+                        <p>A place holder for your next development project. Consider building a REST API tool or an automated script using Python to keep expanding your portfolio.</p>
+                    </div>
                     <div class="tags">
-                        <span class="tag">NextJS</span>
-                        <span class="tag">Node.js</span>
+                        <span class="tag">API</span>
+                        <span class="tag">Backend</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: Blogs -->
+        <section id="blogs">
+            <h2 class="section-title">Technical Writings</h2>
+            
+            <div class="cards-grid">
+                <!-- Blog Post 1 -->
+                <div class="card">
+                    <div>
+                        <div class="meta-text">June 2026 • Database Design</div>
+                        <h3>Demystifying SQL Joins & Normalization</h3>
+                        <p>How I designed the relational database structure for my Bus Ticket Booking system. Breaking down 1NF, 2NF, and 3NF formatting to eliminate redundant transactional data.</p>
+                    </div>
+                    <div>
+                        <a href="#" class="read-more">Read Post →</a>
                     </div>
                 </div>
 
+                <!-- Blog Post 2 -->
+                <div class="card">
+                    <div>
+                        <div class="meta-text">May 2026 • Python Basics</div>
+                        <h3>Why Python is a Powerhouse for Backends</h3>
+                        <p>An exploration of pythonic workflows, error handling techniques, and clean coding paradigms that help engineering students build projects quickly and efficiently.</p>
+                    </div>
+                    <div>
+                        <a href="#" class="read-more">Read Post →</a>
+                    </div>
+                </div>
             </div>
         </section>
 
     </div>
 
+    <!-- JavaScript for the Computer/Matrix Style Mouse Trail -->
     <script>
         const canvas = document.getElementById('trail-canvas');
         const ctx = canvas.getContext('2d');
 
-        // Resize canvas to fit screen
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -223,32 +340,26 @@
         const particles = [];
         const mouse = { x: undefined, y: undefined };
 
-        // Track mouse movement
         window.addEventListener('mousemove', (event) => {
             mouse.x = event.clientX;
             mouse.y = event.clientY;
             
-            // Spawn multiple particles on move for a dense trail
             for (let i = 0; i < 2; i++) {
                 particles.push(new Particle(mouse.x, mouse.y));
             }
         });
 
-        // Particle Blueprint
         class Particle {
             constructor(x, y) {
                 this.x = x;
                 this.y = y;
-                // Random size between 1 and 3 pixels (looks like fine data code points)
                 this.size = Math.random() * 3 + 1; 
-                // Speed direction
                 this.speedX = (Math.random() - 0.5) * 2;
                 this.speedY = (Math.random() - 0.5) * 2;
-                // Tech glowing colors (Cyan / Blue / Dark Blue shades)
                 const colors = ['#58a6ff', '#1f6feb', '#00d2ff', '#58a6ff22'];
                 this.color = colors[Math.floor(Math.random() * colors.length)];
                 this.alpha = 1;
-                this.decay = Math.random() * 0.015 + 0.01; // Rate at which particle disappears
+                this.decay = Math.random() * 0.015 + 0.01;
             }
 
             update() {
@@ -261,7 +372,7 @@
                 ctx.save();
                 ctx.globalAlpha = this.alpha;
                 ctx.shadowBlur = 8;
-                ctx.shadowColor = this.color; // Gives it a "glow" computer effect
+                ctx.shadowColor = this.color;
                 ctx.fillStyle = this.color;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -270,16 +381,11 @@
             }
         }
 
-        // Animation Loop
         function animate() {
-            // Clears canvas with a slight trail persistence
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
             for (let i = 0; i < particles.length; i++) {
                 particles[i].update();
                 particles[i].draw();
-                
-                // Remove dead particles
                 if (particles[i].alpha <= 0) {
                     particles.splice(i, 1);
                     i--;
