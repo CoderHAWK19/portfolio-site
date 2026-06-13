@@ -1,316 +1,274 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Portfolio | CoderHAWK</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name | Portfolio</title>
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-  <style>
-    :root {
-      --bg:#0f172a;
-      --text:#fff;
-      --card:#1e293b;
-      --accent:#38bdf8;
-    }
+        body {
+            background-color: #0d1117; /* Dark tech background */
+            color: #c9d1d9;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-    body.light {
-      --bg:#f1f5f9;
-      --text:#0f172a;
-      --card:#fff;
-      --accent:#0ea5e9;
-    }
+        /* Interactive Canvas Background */
+        #trail-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none; /* Allows clicking through the canvas to elements underneath */
+        }
 
-    * {
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Arial;
-    }
+        /* Content Wrapper */
+        .content-container {
+            position: relative;
+            z-index: 2; /* Sits above the canvas */
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-    body {
-      background:var(--bg);
-      color:var(--text);
-      transition:0.4s;
-    }
+        /* Top Section: Introduction */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
 
-    header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: rgba(30, 41, 59, 0.6); /* semi-transparent */
-  backdrop-filter: blur(12px);       /* glass blur */
-  -webkit-backdrop-filter: blur(12px); /* Safari support */
-  padding: 1rem;
-  text-align: center;
-  transition: all 0.3s ease;
-}
+        .hero-section h1 {
+            font-size: 3.5rem;
+            color: #58a6ff; /* Tech blue */
+            margin-bottom: 10px;
+        }
 
-/* Light mode fix */
-body.light header {
-  background: rgba(255, 255, 255, 0.6);
-}
+        .hero-section h2 {
+            font-size: 1.8rem;
+            color: #8b949e;
+            margin-bottom: 20px;
+        }
 
-    nav {
-      display:flex;
-      justify-content:center;
-      gap:1rem;
-      margin-top:5px;
-    }
+        .hero-section p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
 
-    nav a {
-      color:var(--accent);
-      text-decoration:none;
-    }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #58a6ff;
+            border: 1px solid #58a6ff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
 
-    .toggle {
-      position:absolute;
-      right:15px;
-      top:15px;
-      cursor:pointer;
-    }
+        .btn:hover {
+            background: rgba(88, 166, 255, 0.1);
+            box-shadow: 0 0 15px rgba(88, 166, 255, 0.4);
+        }
 
-    section {
-      padding:3rem 1rem;
-      max-width:900px;
-      margin:auto;
-      opacity:0;
-      transform:translateY(40px);
-      transition:0.8s;
-    }
+        /* Bottom Section: Projects */
+        .projects-section {
+            padding: 100px 0;
+        }
 
-    section.show {
-      opacity:1;
-      transform:translateY(0);
-    }
+        .projects-section h2 .section-title {
+            font-size: 2.5rem;
+            color: #f0f6fc;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #21262d;
+            padding-bottom: 10px;
+        }
 
-    .hero {
-      text-align:center;
-    }
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
 
-    /* Typing effect */
-    #typing {
-      background: linear-gradient(90deg,#38bdf8,#a78bfa,#38bdf8);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      font-weight:bold;
-    }
+        .project-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-    .cursor {
-      display:inline-block;
-      width:2px;
-      height:1em;
-      background:var(--text);
-      animation:blink 1s infinite;
-    }
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: #58a6ff;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
 
-    @keyframes blink {
-      0%,50%,100% {opacity:1}
-      25%,75% {opacity:0}
-    }
+        .project-card h3 {
+            color: #58a6ff;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
 
-    .btn {
-      display:inline-block;
-      margin-top:1rem;
-      padding:0.7rem 1.2rem;
-      background:var(--accent);
-      color:#fff;
-      border-radius:20px;
-      text-decoration:none;
-      transition:0.3s;
-    }
+        .project-card p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            color: #8b949e;
+        }
 
-    .btn:hover {
-      transform:translateY(-3px);
-      box-shadow:0 0 15px var(--accent),0 0 30px var(--accent);
-    }
+        .tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
 
-    .projects {
-      display:grid;
-      gap:1rem;
-    }
-
-    .card {
-      background:var(--card);
-      padding:1rem;
-      border-radius:10px;
-    }
-
-    /* MODAL */
-    .modal {
-      position:fixed;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      background:rgba(0,0,0,0.7);
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      opacity:0;
-      pointer-events:none;
-      transition:0.3s;
-    }
-
-    .modal.active {
-      opacity:1;
-      pointer-events:auto;
-    }
-
-    .modal-content {
-      background:var(--card);
-      padding:1.5rem;
-      border-radius:15px;
-      text-align:center;
-      animation:fadeIn 0.4s;
-    }
-
-    .close {
-      float:right;
-      cursor:pointer;
-    }
-
-    @keyframes fadeIn {
-      from {transform:scale(0.8);opacity:0}
-      to {transform:scale(1);opacity:1}
-    }
-
-  </style>
+        .tag {
+            background: #21262d;
+            color: #8b949e;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-family: monospace;
+        }
+    </style>
 </head>
-
 <body>
 
-<header>
-  <h1>CoderHAWK</h1>
-  <div class="toggle" onclick="toggleMode()">🌙</div>
-  <nav>
-    <a href="#about">About</a>
-    <a href="#projects">Projects</a>
-    <a href="#contact">Contact</a>
-  </nav>
-</header>
+    <canvas id="trail-canvas"></canvas>
 
-<section class="hero show">
-  <h2>Hi, I'm a <span id="typing"></span><span class="cursor"></span> 🚀</h2>
-  <p>I create websites & cinematic content.</p>
-  <a href="#projects" class="btn">View Work</a>
-</section>
+    <div class="content-container">
+        
+        <section class="hero-section">
+            <h2>Hi, my name is</h2>
+            <h1>Your Name</h1>
+            <h2>B.Tech Computer Science Student</h2>
+            <p>I build clean backend logic and interactive frontend experiences. Welcome to my personal space where I showcase my core coding projects and share insights through technical blogging.</p>
+            <a href="#projects" class="btn">View My Work</a>
+        </section>
 
-<section id="about">
-  <h2>About Me</h2>
-  <p>Hey 👋 I'm a developer & cinematic creator.</p>
-</section>
+        <section id="projects" class="projects-section">
+            <h2 class="section-title">Featured Projects</h2>
+            
+            <div class="projects-grid">
+                
+                <div class="project-card">
+                    <h3>Bus Ticket Booking System</h3>
+                    <p>A comprehensive desktop/web application engineered to streamline transit reservations. Features a robust relational database schema to handle seat allocations, schedules, and user bookings securely without conflicts.</p>
+                    <div class="tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">SQL</span>
+                        <span class="tag">RDBMS</span>
+                    </div>
+                </div>
 
-<section id="projects">
-  <h2>Projects</h2>
+                <div class="project-card">
+                    <h3>Project Two (Blog Coming Soon)</h3>
+                    <p>Your next project details go here. Focus on the problem you solved, the tech stack used, and the final impact or performance optimization achieved.</p>
+                    <div class="tags">
+                        <span class="tag">NextJS</span>
+                        <span class="tag">Node.js</span>
+                    </div>
+                </div>
 
-  <div class="projects">
-    <div class="card">
-      <h3>Project 1</h3>
-      <p>Short description.</p>
-      <button class="btn" onclick="openModal('Project 1','Preview here','https://your-project1-link.com')">View Project</button>
+            </div>
+        </section>
+
     </div>
 
-    <div class="card">
-      <h3>Project 2</h3>
-      <p>Short description.</p>
-      <button class="btn" onclick="openModal('Project 2','Preview here','https://your-project2-link.com')">View Project</button>
-    </div>
-  </div>
-</section>
+    <script>
+        const canvas = document.getElementById('trail-canvas');
+        const ctx = canvas.getContext('2d');
 
-<section id="contact">
-  <h2>Contact</h2>
-  <p>Email: coderhawk019@gmail.com</p>
-</section>
+        // Resize canvas to fit screen
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
 
-<footer>
-  <p>© 2026 CoderHAWK</p>
-</footer>
+        const particles = [];
+        const mouse = { x: undefined, y: undefined };
 
-<!-- MODAL -->
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">✖</span>
-    <h3 id="modal-title"></h3>
-    <p id="modal-desc"></p>
-    <a id="modal-link" class="btn" target="_blank">Open Live</a>
-  </div>
-</div>
+        // Track mouse movement
+        window.addEventListener('mousemove', (event) => {
+            mouse.x = event.clientX;
+            mouse.y = event.clientY;
+            
+            // Spawn multiple particles on move for a dense trail
+            for (let i = 0; i < 2; i++) {
+                particles.push(new Particle(mouse.x, mouse.y));
+            }
+        });
 
-<script>
-  // Scroll animation
-  const sections = document.querySelectorAll("section");
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        entry.target.classList.add("show");
-      }
-    });
-  });
-  sections.forEach(sec => observer.observe(sec));
+        // Particle Blueprint
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                // Random size between 1 and 3 pixels (looks like fine data code points)
+                this.size = Math.random() * 3 + 1; 
+                // Speed direction
+                this.speedX = (Math.random() - 0.5) * 2;
+                this.speedY = (Math.random() - 0.5) * 2;
+                // Tech glowing colors (Cyan / Blue / Dark Blue shades)
+                const colors = ['#58a6ff', '#1f6feb', '#00d2ff', '#58a6ff22'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.alpha = 1;
+                this.decay = Math.random() * 0.015 + 0.01; // Rate at which particle disappears
+            }
 
-  // Dark mode
-  function toggleMode(){
-    document.body.classList.toggle("light");
-  }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.alpha -= this.decay;
+            }
 
-  // Modal
-  function openModal(title, desc, link){
-    modalTitle.innerText = title;
-    modalDesc.innerText = desc;
-    modalLink.href = link;
-    modal.classList.add("active");
-  }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = this.color; // Gives it a "glow" computer effect
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
 
-  function closeModal(){
-    modal.classList.remove("active");
-  }
-
-  const modal = document.getElementById("modal");
-  const modalTitle = document.getElementById("modal-title");
-  const modalDesc = document.getElementById("modal-desc");
-  const modalLink = document.getElementById("modal-link");
-
-  // Typing effect
-  const words = ["Developer ","Video Editor ","Cinematic Creator "];
-  let i=0,j=0,isDeleting=false;
-  const typing = document.getElementById("typing");
-
-  function type(){
-    let word = words[i];
-    typing.textContent = word.substring(0,j);
-
-    if(!isDeleting && j<word.length){
-      j++;
-      setTimeout(type,80);
-    }
-    else if(isDeleting && j>0){
-      j--;
-      setTimeout(type,40);
-    }
-    else{
-      isDeleting = !isDeleting;
-      if(!isDeleting) i=(i+1)%words.length;
-      setTimeout(type,1000);
-    }
-  }
-
-  type();
-
-  // Magnetic button
-  const btn = document.querySelector('.btn');
-
-  btn.addEventListener('mousemove', (e) => {
-    const rect = btn.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
-  });
-
-  btn.addEventListener('mouseleave', () => {
-    btn.style.transform = 'translate(0,0)';
-  });
-</script>
-
+        // Animation Loop
+        function animate() {
+            // Clears canvas with a slight trail persistence
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                
+                // Remove dead particles
+                if (particles[i].alpha <= 0) {
+                    particles.splice(i, 1);
+                    i--;
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
 </body>
 </html>
