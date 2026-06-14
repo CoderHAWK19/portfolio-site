@@ -3,22 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> CoderHAWK | Portfolio & Blog</title>
+    <title>CoderHAWK | Portfolio & Blog</title>
     <style>
-        /* Reset & Base Styles */
+        /* Define Color Themes using CSS Variables */
+        :root {
+            --bg-color: #0d1117;          /* Dark theme background */
+            --text-main: #c9d1d9;         /* Dark theme body text */
+            --text-heading: #f0f6fc;      /* Dark theme strong text */
+            --text-secondary: #8b949e;    /* Dark theme muted text */
+            --accent-color: #58a6ff;      /* Tech Blue */
+            --card-bg: #161b22;           /* Dark theme card container */
+            --card-border: #30363d;       /* Dark theme card borders */
+            --nav-bg: rgba(13, 17, 23, 0.8);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f8f9fa;          /* Light theme background */
+            --text-main: #212529;         /* Light theme body text */
+            --text-heading: #111111;      /* Light theme strong text */
+            --text-secondary: #6c757d;    /* Light theme muted text */
+            --accent-color: #0066cc;      /* Deeper blue for readability */
+            --card-bg: #ffffff;           /* Light theme card container */
+            --card-border: #e2e8f0;       /* Light theme card borders */
+            --nav-bg: rgba(248, 249, 250, 0.8);
+        }
+
+        /* Reset & Base Styles using CSS Variables */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            scroll-behavior: smooth; /* Smooth scrolling to sections */
+            scroll-behavior: smooth;
         }
 
         body {
-            background-color: #0d1117; /* Dark tech background */
-            color: #c9d1d9;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             overflow-x: hidden;
             position: relative;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* Interactive Canvas Background */
@@ -38,10 +62,11 @@
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(13, 17, 23, 0.8);
-            backdrop-filter: blur(10px); /* Modern glassmorphism look */
-            border-bottom: 1px solid #21262d;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--card-border);
             z-index: 10;
+            transition: background-color 0.3s, border-color 0.3s;
         }
 
         .nav-container {
@@ -56,9 +81,15 @@
         .logo {
             font-family: monospace;
             font-size: 1.2rem;
-            color: #58a6ff;
+            color: var(--accent-color);
             font-weight: bold;
             text-decoration: none;
+        }
+
+        .right-nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
         }
 
         .nav-links {
@@ -68,7 +99,7 @@
         }
 
         .nav-links a {
-            color: #8b949e;
+            color: var(--text-secondary);
             text-decoration: none;
             font-size: 0.95rem;
             font-weight: 500;
@@ -76,7 +107,26 @@
         }
 
         .nav-links a:hover {
-            color: #58a6ff;
+            color: var(--accent-color);
+        }
+
+        /* Interactive Theme Toggle Switch Button */
+        .theme-toggle-btn {
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            background: var(--accent-color);
+            color: #ffffff;
+            box-shadow: 0 0 10px var(--accent-color);
         }
 
         /* Content Wrapper */
@@ -97,9 +147,9 @@
 
         .section-title {
             font-size: 2.5rem;
-            color: #f0f6fc;
+            color: var(--text-heading);
             margin-bottom: 40px;
-            border-bottom: 2px solid #21262d;
+            border-bottom: 2px solid var(--card-border);
             padding-bottom: 10px;
         }
 
@@ -114,13 +164,13 @@
 
         .hero-section h2 {
             font-size: 1.8rem;
-            color: #8b949e;
+            color: var(--text-secondary);
             margin-bottom: 15px;
         }
 
         .hero-section h1 {
             font-size: 3.5rem;
-            color: #58a6ff;
+            color: var(--accent-color);
             margin-bottom: 15px;
         }
 
@@ -135,8 +185,8 @@
         .btn {
             display: inline-block;
             padding: 12px 28px;
-            color: #58a6ff;
-            border: 2px solid #58a6ff;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
             text-decoration: none;
             border-radius: 5px;
             font-weight: 600;
@@ -147,10 +197,10 @@
 
         .btn:hover {
             color: #ffffff;
-            background: #58a6ff;
+            background: var(--accent-color);
             transform: translateY(-3px);
-            box-shadow: 0 0 15px rgba(88, 166, 255, 0.6), 
-                        0 0 30px rgba(88, 166, 255, 0.3);
+            box-shadow: 0 0 15px var(--accent-color), 
+                        0 0 30px var(--accent-color);
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
         }
 
@@ -162,24 +212,28 @@
         }
 
         .card {
-            background: #161b22;
-            border: 1px solid #30363d;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 8px;
             padding: 25px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
         }
 
         .card:hover {
             transform: translateY(-5px);
-            border-color: #58a6ff;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            border-color: var(--accent-color);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        [data-theme="dark"] .card:hover {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
         }
 
         .card h3 {
-            color: #58a6ff;
+            color: var(--accent-color);
             margin-bottom: 15px;
             font-size: 1.4rem;
         }
@@ -188,13 +242,12 @@
             font-size: 0.95rem;
             line-height: 1.6;
             margin-bottom: 20px;
-            color: #8b949e;
+            color: var(--text-secondary);
         }
 
-        /* Utility styles for metadata */
         .meta-text {
             font-size: 0.8rem;
-            color: #8b949e;
+            color: var(--text-secondary);
             margin-bottom: 10px;
             font-family: monospace;
         }
@@ -207,8 +260,8 @@
         }
 
         .tag {
-            background: #21262d;
-            color: #8b949e;
+            background: var(--card-border);
+            color: var(--text-secondary);
             padding: 5px 10px;
             border-radius: 4px;
             font-size: 0.8rem;
@@ -216,7 +269,7 @@
         }
 
         .read-more {
-            color: #58a6ff;
+            color: var(--accent-color);
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 600;
@@ -231,41 +284,35 @@
         }
     </style>
 </head>
-<body>
+<body data-theme="dark"> <canvas id="trail-canvas"></canvas>
 
-    <!-- Canvas for the background trail -->
-    <canvas id="trail-canvas"></canvas>
-
-    <!-- Global Header Navigation -->
     <nav>
         <div class="nav-container">
-            <a href="#home" class="logo">&lt;CSE_Student /&gt;</a>
-            <ul class="nav-links">
-                <li><a href="#home">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#blogs">Blogs</a></li>
-            </ul>
+            <a href="#home" class="logo">CoderHAWK;</a>
+            <div class="right-nav">
+                <ul class="nav-links">
+                    <li><a href="#home">About</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#blogs">Blogs</a></li>
+                </ul>
+                <button class="theme-toggle-btn" id="theme-button">Light Mode</button>
+            </div>
         </div>
     </nav>
 
-    <!-- Main Site Content -->
     <div class="content-container">
         
-        <!-- SECTION 1: Intro (Home) -->
         <section id="home" class="hero-section">
             <h2>Hi, my name is</h2>
-            <h1>CoderHAWK</h1>
+            <h1>Harshil Kumar Verma</h1>
             <h2>B.Tech Computer Science Student</h2>
             <p>I build clean backend logic and interactive frontend experiences. Welcome to my personal space where I showcase my core coding projects and share insights through technical blogging.</p>
             <a href="#projects" class="btn">View My Work</a>
         </section>
 
-        <!-- SECTION 2: Projects -->
         <section id="projects">
             <h2 class="section-title">Featured Projects</h2>
-            
             <div class="cards-grid">
-                <!-- Bus Ticket Booking Project -->
                 <div class="card">
                     <div>
                         <h3>Bus Ticket Booking System</h3>
@@ -277,12 +324,10 @@
                         <span class="tag">RDBMS</span>
                     </div>
                 </div>
-
-                <!-- Future Project Shell -->
                 <div class="card">
                     <div>
                         <h3>Upcoming Project</h3>
-                        <p>A place holder for your next development project. Consider building a REST API tool or an automated script using Python to keep expanding your portfolio.</p>
+                        <p>A placeholder for your next development project. Consider building a REST API tool or an automated script using Python to keep expanding your portfolio.</p>
                     </div>
                     <div class="tags">
                         <span class="tag">API</span>
@@ -292,12 +337,9 @@
             </div>
         </section>
 
-        <!-- SECTION 3: Blogs -->
         <section id="blogs">
             <h2 class="section-title">Technical Writings</h2>
-            
             <div class="cards-grid">
-                <!-- Blog Post 1 -->
                 <div class="card">
                     <div>
                         <div class="meta-text">June 2026 • Database Design</div>
@@ -308,8 +350,6 @@
                         <a href="#" class="read-more">Read Post →</a>
                     </div>
                 </div>
-
-                <!-- Blog Post 2 -->
                 <div class="card">
                     <div>
                         <div class="meta-text">May 2026 • Python Basics</div>
@@ -325,10 +365,27 @@
 
     </div>
 
-    <!-- JavaScript for the Computer/Matrix Style Mouse Trail -->
     <script>
         const canvas = document.getElementById('trail-canvas');
         const ctx = canvas.getContext('2d');
+        const themeBtn = document.getElementById('theme-button');
+        const bodyElement = document.body;
+
+        // Dynamic theme variable for the JS Canvas array structure
+        let currentTheme = 'dark';
+
+        // Listen for Theme Toggle clicks
+        themeBtn.addEventListener('click', () => {
+            if (bodyElement.getAttribute('data-theme') === 'dark') {
+                bodyElement.setAttribute('data-theme', 'light');
+                themeBtn.textContent = 'Dark Mode';
+                currentTheme = 'light';
+            } else {
+                bodyElement.setAttribute('data-theme', 'dark');
+                themeBtn.textContent = 'Light Mode';
+                currentTheme = 'dark';
+            }
+        });
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -343,7 +400,6 @@
         window.addEventListener('mousemove', (event) => {
             mouse.x = event.clientX;
             mouse.y = event.clientY;
-            
             for (let i = 0; i < 2; i++) {
                 particles.push(new Particle(mouse.x, mouse.y));
             }
@@ -356,8 +412,14 @@
                 this.size = Math.random() * 3 + 1; 
                 this.speedX = (Math.random() - 0.5) * 2;
                 this.speedY = (Math.random() - 0.5) * 2;
-                const colors = ['#58a6ff', '#1f6feb', '#00d2ff', '#58a6ff22'];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Dynamically load particle palette depending on the active layout theme state
+                const darkColors = ['#58a6ff', '#1f6feb', '#00d2ff', 'rgba(88,166,255,0.1)'];
+                const lightColors = ['#0066cc', '#004499', '#3399ff', 'rgba(0,102,204,0.1)'];
+                
+                this.colorsList = currentTheme === 'dark' ? darkColors : lightColors;
+                this.color = this.colorsList[Math.floor(Math.random() * this.colorsList.length)];
+                
                 this.alpha = 1;
                 this.decay = Math.random() * 0.015 + 0.01;
             }
@@ -371,7 +433,7 @@
             draw() {
                 ctx.save();
                 ctx.globalAlpha = this.alpha;
-                ctx.shadowBlur = 8;
+                ctx.shadowBlur = currentTheme === 'dark' ? 8 : 2; // Strong glow in dark mode, clean dot in light mode
                 ctx.shadowColor = this.color;
                 ctx.fillStyle = this.color;
                 ctx.beginPath();
